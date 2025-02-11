@@ -1,5 +1,5 @@
 console.log("Running...");
-const serverForReq = "http://localhost:8000/";
+const serverForReq = "/";
 let activeMeter = 0;
 let meterNames = [];
 let meterData = [];
