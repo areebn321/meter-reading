@@ -13,9 +13,46 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <title>Document</title>
+    <title>Meter Reader App - An App Where You Can Save Your Readings</title>
   </head>
   <body>
+    <div
+      class="fixed top-0 left-0 w-screen h-screen z-[99999] bg-slate-900"
+      id="loginModal"
+    >
+      <div
+        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-600 h-[50%] md:w-[35%] w-[90%] rounded-lg"
+      >
+        <h1 class="my-3 text-5xl font-bold text-center text-white">Login</h1>
+        <div class="flex flex-col items-center justify-center gap-2 mt-4">
+          <input
+            type="text"
+            class="md:w-3/4 w-[90%] px-4 py-3 text-xl text-center text-white transition-all border rounded-md bg-slate-800"
+            placeholder="Username"
+            autocomplete="off"
+            id="usernameInput"
+          />
+          <input
+            type="password"
+            class="md:w-3/4 w-[90%] px-4 py-3 text-xl text-center text-white transition-all border rounded-md bg-slate-800"
+            placeholder="Password"
+            autocomplete="off"
+            id="passwordInput"
+          />
+          <div
+            class="font-semibold text-center text-red-500 transition"
+            id="loginError"
+          ></div>
+          <button
+            class="md:w-3/4 w-[90%] px-4 py-3 text-center text-white transition-all bg-green-600 rounded-md cursor-pointer hover:bg-green-500"
+            id="loginBtn"
+          >
+            Login
+          </button>
+        </div>
+      </div>
+    </div>
+
     <i
       class="absolute text-4xl cursor-pointer fa-solid fa-bars top-2.5 right-4 z-[90]"
       id="menuIcon"
@@ -24,7 +61,7 @@
       class="h-screen w-screen fixed z-[60] bg-purple-950 hidden"
       id="optionsWindow"
     >
-      <h1 class="mt-3 text-3xl font-bold text-center text-white">
+      <h1 class="text-3xl font-bold text-center text-white mt-11">
         Meter Reader Settings Menu
       </h1>
       <div class="flex flex-col items-center justify-center btns gap-1.5 mt-4">
@@ -55,107 +92,95 @@
       id="meterDataEnterWindow"
       class="adbsolute z-[90] flex-col items-center justify-center hidden w-full h-screen fixed bg-slate-900"
     >
-      <lord-icon
-        src="https://cdn.lordicon.com/nqtddedc.json"
-        trigger="hover"
-        colors="primary:#e4e4e4"
+      <i
+        class="absolute text-4xl cursor-pointer fa-solid fa-close top-2.5 right-4 z-[90]"
         style="width: 50px; height: 50px"
         id="meterDataCross"
         class="absolute top-0 cursor-pointer right-5"
+      ></i>
+      <div
+        class="flex flex-col items-center justify-center w-full mb-40 gap-y-3"
       >
-      </lord-icon>
-      <div class="grid gap-6 mb-6 md:grid-cols-2">
-        <div>
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >Enter Meter Name</label
-          >
-          <input
-            type="text"
-            id="meterNameInput"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Enter Meter Name"
-            required
-          />
-        </div>
-        <div>
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >Enter Units</label
-          >
-          <input
-            type="text"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Enter Units"
-            required
-            id="meterUnitInput"
-          />
-        </div>
-        <div>
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >Enter Price</label
-          >
-          <input
-            type="text"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Enter Price"
-            id="meterPriceInput"
-            required
-          />
-        </div>
-      </div>
+        <h1 class="my-4 text-3xl font-bold text-center text-white">
+          Add New Meter
+        </h1>
+        <input
+          type="text"
+          id="meterNameInput"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[90%] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Enter Meter Name"
+          placeholder="Enter Meter Name"
+          required
+        />
 
-      <button
-        type="submit"
-        id="submitBtn"
-        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 cursor-pointer"
-      >
-        Submit
-      </button>
+        <input
+          type="text"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 w-[90%] dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Enter Units"
+          required
+          id="meterUnitInput"
+        />
+
+        <input
+          type="text"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 w-[90%] dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Enter Price"
+          id="meterPriceInput"
+          required
+        />
+        <button
+          type="submit"
+          id="submitBtn"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center w-[90%] dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 cursor-pointer"
+        >
+          Submit
+        </button>
+      </div>
     </div>
     <!-- New modal for editing meters -->
     <div
       id="meterEditModal"
-      class="fixed inset-0 z-50 flex-col items-center justify-center hidden text-black bg-black bg-opacity-50"
+      class="fixed inset-0 z-50 flex-col items-center justify-center hidden text-black bg-black bg-opacity-50 flsex"
     >
-      <div class="p-6 bg-white rounded-md w-80">
-        <h2 class="mb-4 text-xl font-bold">Select Meter to Edit</h2>
-        <ul id="editMeterList" class="mb-4">
-          <!-- Dynamically filled with meter names -->
-        </ul>
-        <div id="meterEditForm" class="hidden">
-          <input
-            type="text"
-            id="editMeterName"
-            placeholder="Meter Name"
-            class="w-full p-2 mb-2 border"
-          />
-          <input
-            type="text"
-            id="editMeterUnit"
-            placeholder="Units"
-            class="w-full p-2 mb-2 border"
-          />
-          <input
-            type="text"
-            id="editMeterPrice"
-            placeholder="Price"
-            class="w-full p-2 mb-2 border"
-          />
+      <div class="flex items-center justify-center">
+        <div class="p-6 bg-white rounded-md w-80">
+          <h2 class="mb-4 text-xl font-bold">Select Meter to Edit</h2>
+          <ul id="editMeterList" class="mb-4">
+            <!-- Dynamically filled with meter names -->
+          </ul>
+          <div id="meterEditForm" class="hidden">
+            <input
+              type="text"
+              id="editMeterName"
+              placeholder="Meter Name"
+              class="w-full p-2 mb-2 border"
+            />
+            <input
+              type="text"
+              id="editMeterUnit"
+              placeholder="Units"
+              class="w-full p-2 mb-2 border"
+            />
+            <input
+              type="text"
+              id="editMeterPrice"
+              placeholder="Price"
+              class="w-full p-2 mb-2 border"
+            />
+            <button
+              id="saveEditBtn"
+              class="w-full p-2 text-white bg-green-600 rounded"
+            >
+              Save Changes
+            </button>
+          </div>
           <button
-            id="saveEditBtn"
-            class="w-full p-2 text-white bg-green-600 rounded"
+            id="closeEditModal"
+            class="w-full p-2 mt-2 text-white bg-gray-500 rounded"
           >
-            Save Changes
+            Cancel
           </button>
         </div>
-        <button
-          id="closeEditModal"
-          class="w-full p-2 mt-2 text-white bg-gray-500 rounded"
-        >
-          Cancel
-        </button>
       </div>
     </div>
 
@@ -164,29 +189,34 @@
       id="meterDeleteModal"
       class="fixed inset-0 z-50 flex-col items-center justify-center hidden text-black bg-black bg-opacity-50"
     >
-      <div class="p-6 bg-white rounded-md w-80">
-        <h2 class="mb-4 text-xl font-bold">Select Meter to Delete</h2>
-        <ul id="deleteMeterList" class="mb-4">
-          <!-- Dynamically filled with meter names -->
-        </ul>
-        <button
-          id="closeDeleteModal"
-          class="w-full p-2 text-white bg-gray-500 rounded"
-        >
-          Cancel
-        </button>
+      <div class="flex items-center justify-center">
+        <div class="p-6 bg-white rounded-md w-80">
+          <h2 class="mb-4 text-xl font-bold">Select Meter to Delete</h2>
+          <ul id="deleteMeterList" class="mb-4">
+            <!-- Dynamically filled with meter names -->
+          </ul>
+          <button
+            id="closeDeleteModal"
+            class="w-full p-2 text-white bg-gray-500 rounded"
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
     <!--! NAVBAR Starts Here-->
-    <nav class="w-full bg-purpdle-700">
-      <ul class="flex items-center justify-center w-full" id="navUl"></ul>
+    <nav class="w-full p-4 pr-13 bg-purpdle-700">
+      <ul
+        class="flfex fflex-wrap itefms-center justfify-center"
+        id="navUl"
+      ></ul>
     </nav>
     <!--! NAVBAR Ends Here-->
     <!--? Data Div Starts Here-->
     <div
       class="flex flex-col items-center justify-center w-full mt-2 bg-[#ffffff13]"
     >
-      <p class="text-3xl font-bold" id="meterName">
+      <p class="text-3xl font-bold text-center" id="meterName">
         Enter <span class="text-4xl font-bold text-red-700">__</span> Meter
         Reading
       </p>
@@ -204,8 +234,9 @@
     <!--? Data Div Ends Here-->
     <!--? Table Div Starts Here-->
     <div class="w-full mt-3">
-      <div class="w-3/4 mx-auto bg-redd-400" id="mainMeterData"></div>
+      <div class="w-full mx-auto md:w-3/4 bg-redd-400" id="mainMeterData"></div>
     </div>
     <script src="script.js"></script>
+    <script src="login.js"></script>
   </body>
 </html>

@@ -1,6 +1,6 @@
 console.log("Running...");
-// const serverForReq = "https://meter-reading.up.railway.app/";
-const serverForReq = "http://localhost:8000/";
+const serverForReq = "https://meter-reading.up.railway.app/";
+// const serverForReq = "http://localhost:8000/";
 let activeMeter = 0;
 let meterNames = [];
 let meterData = [];
@@ -196,7 +196,11 @@ function updateNavbar() {
     li.innerHTML = name;
     li.setAttribute("data-index", index);
     li.classList.add(
-      "w-full",
+      "w-content-container",
+      "flex",
+      "justify-center",
+      "items-center",
+
       "p-4",
       "text-xl",
       "text-center",
@@ -257,7 +261,8 @@ function addData(activeMeter) {
 
   meterFullData[activeMeter].forEach((entry, readingIndex) => {
     let div = document.createElement("div");
-    div.className = "flex items-center justify-center w-[70%] mx-auto border";
+    div.className =
+      "flex items-center justify-center rounded-sm w-[95%] md:w-[70%] mx-auto border";
 
     div.innerHTML = `
       <div class="flex flex-col items-center justify-between w-full h-full text-2xl border">
@@ -428,13 +433,16 @@ function showMeterDeleteModal() {
     li.className = "p-2 border-b cursor-pointer";
     li.addEventListener("click", async () => {
       if (confirm(`Delete meter "${meter[0]}" and all its data?`)) {
-        await deleteMeter(index);
-        meterData.splice(index, 1);
-        meterFullData.splice(index, 1);
-        updateNavbar();
-        if (activeMeter >= meterData.length) activeMeter = meterData.length - 1;
-        await updateMeterName(activeMeter);
-        modal.classList.add("hidden");
+        if (confirm(`We are confirming again that you sure to delete it?`)) {
+          await deleteMeter(index);
+          meterData.splice(index, 1);
+          meterFullData.splice(index, 1);
+          updateNavbar();
+          if (activeMeter >= meterData.length)
+            activeMeter = meterData.length - 1;
+          await updateMeterName(activeMeter);
+          modal.classList.add("hidden");
+        }
       }
     });
     list.appendChild(li);
