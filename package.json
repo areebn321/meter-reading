@@ -1,5 +1,5 @@
 {
-  "name": "meter-reader-with-bkend",
+  "name": "meter-reader-with-backend",
   "version": "1.0.0",
   "main": "backend.js",
   "scripts": {
