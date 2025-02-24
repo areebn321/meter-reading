@@ -3,7 +3,7 @@ const { MongoClient } = require("mongodb");
 const cors = require("cors");
 
 const app = express();
-const port = 8000;
+const port = process.env.PORT || 8000;
 const url = "mongodb://localhost:27017";
 // const url = `mongodb+srv://areebnadir3:uFnLZXY43pCFLLkd@cluster0.utvvj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 const dbName = "MeterReader";
