@@ -13,26 +13,8 @@ const dbName = "MeterReader";
 app.use(cors());
 app.use(express.json()); // ✅ Allows handling JSON request bodies
 
-app.get("/", async (req, res) => {
-  const client = new MongoClient(url);
-  try {
-    await client.connect();
-    const db = client.db(dbName);
-    const collection = db.collection("meterData");
-
-    const result = await collection.findOne({});
-    // If no data exists, return empty arrays for meters and readings.
-    if (!result || !result.meters) {
-      return res.json({ meters: [], readings: [] });
-    }
-
-    res.json(result);
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  } finally {
-    await client.close();
-  }
+app.get("/", (req, res) => {
+  res.send("Hello World!");
 });
 
 // ✅ POST Route: Adds meter data to DB
