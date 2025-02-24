@@ -1,12 +1,11 @@
 const express = require("express");
 const { MongoClient } = require("mongodb");
 const cors = require("cors");
+require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT || 8000;
-const url =
-  `mongodb+srv://areebnadir3:uFnLZXY43pCFLLkd@cluster0.utvvj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0` ||
-  "mongodb://localhost:27017";
+const url = process.env.MONGO_URI;
 // const url = `mongodb+srv://areebnadir3:uFnLZXY43pCFLLkd@cluster0.utvvj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 const dbName = "MeterReader";
 
