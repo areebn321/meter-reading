@@ -16,3 +16,69 @@ input[type="number"]::-webkit-outer-spin-button {
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 5px;
 }
+
+#screenn {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgb(116, 107, 135); /* Translucent effect */
+  backdrop-filter: blur(10px); /* Glass/mirror effect */
+  border: 2px solid rgba(255, 255, 255, 0.3); /* Slight border */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Soft shadow */
+  z-index: 9999999;
+  display: none;
+}
+
+.loader {
+  z-index: 99999999;
+  width: fit-content;
+  font-size: 70px;
+  font-family: monospace;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #0000;
+  -webkit-text-stroke: 1px #160023;
+  --g: conic-gradient(#210055 0 0) no-repeat text;
+  background: var(--g) 0, var(--g) 1ch, var(--g) 2ch, var(--g) 3ch, var(--g) 4ch,
+    var(--g) 5ch, var(--g) 6ch;
+  background-position-y: 100%;
+  animation: l15 3s infinite;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.loader:before {
+  content: "Loading";
+}
+@keyframes l15 {
+  0% {
+    background-size: 1ch 0, 1ch 0, 1ch 0, 1ch 0, 1ch 0, 1ch 0, 1ch 0;
+  }
+  14.28% {
+    background-size: 1ch 100%, 1ch 0, 1ch 0, 1ch 0, 1ch 0, 1ch 0, 1ch 0;
+  }
+  28.57% {
+    background-size: 1ch 100%, 1ch 100%, 1ch 0, 1ch 0, 1ch 0, 1ch 0, 1ch 0;
+  }
+  42.85% {
+    background-size: 1ch 100%, 1ch 100%, 1ch 100%, 1ch 0, 1ch 0, 1ch 0, 1ch 0;
+  }
+  57.14% {
+    background-size: 1ch 100%, 1ch 100%, 1ch 100%, 1ch 100%, 1ch 0, 1ch 0, 1ch 0;
+  }
+  71.43% {
+    background-size: 1ch 100%, 1ch 100%, 1ch 100%, 1ch 100%, 1ch 100%, 1ch 0,
+      1ch 0;
+  }
+  85.71% {
+    background-size: 1ch 100%, 1ch 100%, 1ch 100%, 1ch 100%, 1ch 100%, 1ch 100%,
+      1ch 0;
+  }
+  100% {
+    background-size: 1ch 100%, 1ch 100%, 1ch 100%, 1ch 100%, 1ch 100%, 1ch 100%,
+      1ch 100%;
+  }
+}

@@ -7,7 +7,13 @@ let meterData = [];
 let meterFullData = [];
 
 main();
-
+function loader(display) {
+  if (display == "none") {
+    screenn.style.display = "none";
+  } else {
+    screenn.style.display = "block";
+  }
+}
 async function main() {
   try {
     const meterUnitsInput = document.querySelector("#meterUnitsInput");
@@ -34,6 +40,7 @@ async function main() {
       if (
         e.target.value.length >= meterData[activeMeter][1].toString().length
       ) {
+        await loader();
         let enteredValue = parseInt(e.target.value, 10);
         let baselineValue = parseInt(meterData[activeMeter][1], 10); // use initial reading as baseline
 
@@ -73,6 +80,7 @@ async function main() {
         await updateMeterName(activeMeter);
         addData(activeMeter);
         document.querySelector("#meterUnitsInput").value = "";
+        await loader("none");
       }
     });
 
@@ -92,7 +100,7 @@ async function main() {
           meterUnitInput.value,
           meterPriceInput.value,
         ];
-
+        await loader();
         // Call the new endpoint to append the new meter
         try {
           let req = await fetch(serverForReq + "appendMeter", {
@@ -115,6 +123,7 @@ async function main() {
         } catch (error) {
           console.error("Error appending new meter:", error);
         }
+        await loader("none");
       }
     });
 
@@ -157,10 +166,16 @@ async function addMeterDataToDb(meterData) {
 
 async function tookMeterDataToDb() {
   try {
+    console.log("Fetching meter data from DB...");
+    // loader("block");
+    await loader();
     let getData = await fetch(`${serverForReq}meterDataToDb`);
     if (!getData.ok) {
       throw new Error(`HTTP error! status: ${getData.status}`);
     }
+
+    loader("none");
+    console.log("Fetched meter data from DB successfully");
 
     let data = await getData.json();
     console.log("Raw Fetched Data:", data);
@@ -265,7 +280,7 @@ function addData(activeMeter) {
       "flex items-center justify-center rounded-sm w-[95%] md:w-[70%] mx-auto border";
 
     div.innerHTML = `
-      <div class="flex flex-col items-center justify-between w-full h-full text-2xl border">
+      <div class="flex flex-col items-center justify-between w-full h-full text-xl border">
         <div><span class="font-semibold">Date:</span> <span>${entry[0]}</span></div>
         <div><span class="font-semibold">Units:</span> <span>${entry[1]}</span></div>
         <div><span class="font-semibold">Price:</span> <span>${entry[2]}</span></div>
@@ -405,6 +420,7 @@ function showMeterEditModal() {
       document.getElementById("editMeterPrice").value = meter[2];
       // Attach save event for this meter index
       document.getElementById("saveEditBtn").onclick = async () => {
+        await loader();
         const newMeter = [
           document.getElementById("editMeterName").value,
           document.getElementById("editMeterUnit").value,
@@ -415,6 +431,7 @@ function showMeterEditModal() {
         updateNavbar();
         await updateMeterName(activeMeter);
         modal.classList.add("hidden");
+        await loader("none");
       };
     });
     list.appendChild(li);
@@ -434,6 +451,7 @@ function showMeterDeleteModal() {
     li.addEventListener("click", async () => {
       if (confirm(`Delete meter "${meter[0]}" and all its data?`)) {
         if (confirm(`We are confirming again that you sure to delete it?`)) {
+          await loader();
           await deleteMeter(index);
           meterData.splice(index, 1);
           meterFullData.splice(index, 1);
@@ -442,6 +460,7 @@ function showMeterDeleteModal() {
             activeMeter = meterData.length - 1;
           await updateMeterName(activeMeter);
           modal.classList.add("hidden");
+          await loader("none");
         }
       }
     });
