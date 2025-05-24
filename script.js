@@ -1,5 +1,6 @@
 console.log("Running...");
 const serverForReq = "https://meter-reading.up.railway.app/";
+// Uncomment the line below to use a local server for testing
 // const serverForReq = "https://lovely-imagination.railway.app/";
 
 // const serverForReq = "http://localhost:8000/";
