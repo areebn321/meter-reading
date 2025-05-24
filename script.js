@@ -1,5 +1,7 @@
 console.log("Running...");
 const serverForReq = "https://meter-reading.up.railway.app/";
+// const serverForReq = "https://lovely-imagination.railway.app/";
+
 // const serverForReq = "http://localhost:8000/";
 let activeMeter = 0;
 let meterNames = [];
