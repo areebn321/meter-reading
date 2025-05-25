@@ -29,9 +29,11 @@ input[type="number"]::-webkit-outer-spin-button {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Soft shadow */
   z-index: 9999999;
   display: none;
+  align-items: center;
+  justify-content: center;
 }
 
-.loader {
+/* .loader {
   z-index: 99999999;
   width: fit-content;
   font-size: 70px;
@@ -81,4 +83,38 @@ input[type="number"]::-webkit-outer-spin-button {
     background-size: 1ch 100%, 1ch 100%, 1ch 100%, 1ch 100%, 1ch 100%, 1ch 100%,
       1ch 100%;
   }
+} */
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 120px;
+  height: 50px;
+  border: 2px solid #370057;
+  box-sizing: border-box;
+  border-radius: 50%;
+  display: grid;
+  /* background-color: #160023; */
+  animation: l2 2s infinite linear;
+}
+.loader:before,
+.loader:after {
+  content: "";
+  grid-area: 1/1;
+  border: inherit;
+  border-radius: 50%;
+  animation: inherit;
+  animation-duration: 3s;
+}
+.loader:after {
+  --s: -1;
+}
+@keyframes l2 {
+  100% {
+    transform: rotate(calc(var(--s, 1) * 1turn));
+  }
+}
+.flex.flex-col.items-center.justify-between.w-full.h-full.text-xl.border
+  > div:nth-child(2) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

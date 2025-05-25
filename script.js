@@ -1,10 +1,7 @@
 console.log("Running...");
-// const serverForReq = "https://meter-reading.up.railway.app/";
-// Uncomment the line below to use a local server for testing
-// const serverForReq = "https://lovely-imagination.railway.app/";
 
 // const serverForReq = "http://localhost:8000/";
-const serverForReq = `https://meter-reading-production.up.railway.app/meterDataToDb`;
+const serverForReq = `https://meter-reading-production.up.railway.app/`;
 let activeMeter = 0;
 let meterNames = [];
 let meterData = [];
@@ -15,7 +12,7 @@ function loader(display) {
   if (display == "none") {
     screenn.style.display = "none";
   } else {
-    screenn.style.display = "block";
+    screenn.style.display = "flex";
   }
 }
 async function main() {
@@ -314,15 +311,19 @@ function addData(activeMeter) {
 
 async function deleteMeterReading(meterIndex, readingIndex) {
   try {
+    await loader();
     let req = await fetch(serverForReq + "deleteMeterReading", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ meterIndex, readingIndex }),
     });
+    //! HERE BRI
+
     if (!req.ok) {
       throw new Error(`HTTP error! status: ${req.status}`);
     }
     let response = await req.json();
+    await loader("none");
     console.log("Meter reading deleted successfully", response);
   } catch (error) {
     console.error("Error deleting meter reading:", error);
