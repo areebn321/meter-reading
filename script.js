@@ -181,12 +181,14 @@ async function tookMeterDataToDb() {
     let data = await getData.json();
     console.log("Raw Fetched Data:", data);
 
+
     if (!data || !data.meters || data.meters.length === 0) {
       console.warn("No meter data found, displaying data entry form.");
       document.querySelector("#meterDataEnterWindow").style.display = "flex";
       return { meters: [], readings: [] };
     }
 
+  
     return data;
   } catch (error) {
     console.error("Error fetching meter data:", error);
@@ -307,6 +309,11 @@ function addData(activeMeter) {
 
     mainMeterData.appendChild(div);
   });
+  // console.log(
+    // ); 
+    let av=document.getElementsByClassName("flex items-center justify-center rounded-sm w-[95%] md:w-[70%] mx-auto border")
+    
+    displayAvgUnits(av)
 }
 
 async function deleteMeterReading(meterIndex, readingIndex) {
@@ -514,3 +521,37 @@ document.getElementById("closeEditModal").addEventListener("click", () => {
 document.getElementById("closeDeleteModal").addEventListener("click", () => {
   document.getElementById("meterDeleteModal").classList.add("hidden");
 });
+function displayAvgUnits(data) {
+  if(localStorage.getItem("avgUnits")){
+  const avgUnits = document.getElementById("avgUnits");
+  
+  avgUnits.innerHTML=`Average Units per day: <span id="avgUnitsSpan">__</span> Units`
+  const avgUnitsSpan = document.getElementById("avgUnitsSpan");
+
+   let arr=[]
+  Array.from(data).forEach(a => {
+    arr.push(a.innerText.split("\n")[2].split("=")[1]);
+
+  });
+  console.log(arr);
+  arrLEN=arr.length;
+  let sum=0;
+  arr.forEach(a => {
+    sum+=parseFloat(a);
+  });
+  const avg=sum/arrLEN;
+  console.log(avg);
+  avgUnitsSpan.innerText=avg.toFixed(2).split(".00")[0];
+}}
+
+
+appendAvg.addEventListener("click", () => {
+if(!localStorage.getItem("avgUnits")){
+
+  localStorage.setItem("avgUnits",true)
+  window.location.reload();
+}else{
+  localStorage.removeItem("avgUnits")
+  window.location.reload();
+}
+})
