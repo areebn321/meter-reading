@@ -16,6 +16,15 @@
     <title>Meter Reader App - An App Where You Can Save Your Readings</title>
   </head>
   <body>
+    <div id="meterReadingDateDiv" class="hidden fixed bg-purple-900 gap-3 h-screen w-screen z-[9999999999999999999]  flex-col items-center justify-center top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2">
+      <div>Previous Meter Reading Date: <span id="previousMeterReading">___</span> </div>
+      Set Meter Reading Date: 
+      <input type="date" class="px-3 py-1.5 border rounded-xs" id="meterReadingDateInput">
+      <div class="btns">
+        <button id="saveMeterReadingDate" class="px-5 py-1.5 text-white bg-green-600 rounded-md hover:bg-green-500">Save</button>
+        <button id="cancelMeterReadingDate" class="px-5 py-1.5 text-white bg-red-600 rounded-md hover:bg-red-500">Cancel</button>
+      </div>
+    </div>
     <div id="screenn">
       <div class="loader"></div>
     </div>
@@ -92,6 +101,12 @@
           id="appendAvg"
         >
           Toggle Average Units
+        </button>
+        <button
+          class="w-3/4 px-4 py-3 text-center text-white transition-all bg-purple-800 rounded-md cursor-pointer hover:bg-purple-600"
+          id="meterReadingDate"
+        >
+          Set Meter Reading Date
         </button>
       </div>
     </div>

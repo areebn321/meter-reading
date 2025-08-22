@@ -1,7 +1,7 @@
 console.log("Running...");
 
-// const serverForReq = "http://localhost:8000/";
-const serverForReq = `https://meter-reading-production.up.railway.app/`;
+const serverForReq = "http://localhost:8000/";
+// const serverForReq = `https://meter-reading-production.up.railway.app/`;
 let activeMeter = 0;
 let meterNames = [];
 let meterData = [];
@@ -524,22 +524,23 @@ document.getElementById("closeDeleteModal").addEventListener("click", () => {
 function displayAvgUnits(data) {
   if(localStorage.getItem("avgUnits")){
   const avgUnits = document.getElementById("avgUnits");
-  
+
   avgUnits.innerHTML=`Average Units per day: <span id="avgUnitsSpan">__</span> Units`
   const avgUnitsSpan = document.getElementById("avgUnitsSpan");
 
-   let arr=[]
+let arr=[]
   Array.from(data).forEach(a => {
     arr.push(a.innerText.split("\n")[2].split("=")[1]);
 
   });
-  console.log(arr);
-  arrLEN=arr.length;
-  let sum=0;
-  arr.forEach(a => {
-    sum+=parseFloat(a);
-  });
-  const avg=sum/arrLEN;
+
+
+let d = new Date();
+console.log(d.getDate()); 
+let nowDate=d.getDate()
+let totalDays=nowDate-Number(localStorage.getItem("meterReadingDate"))
+
+  const avg=arr[arr.length-1]/totalDays;
   console.log(avg);
   avgUnitsSpan.innerText=avg.toFixed(2).split(".00")[0];
 }}
@@ -555,3 +556,23 @@ if(!localStorage.getItem("avgUnits")){
   window.location.reload();
 }
 })
+saveMeterReadingDate.addEventListener("click", () => {
+  const date = document.getElementById("meterReadingDateInput").value;
+  if (date) {
+    localStorage.setItem("meterReadingDate", date.split("-")[2]);
+  
+    console.log(date.split("-")[2])
+  }
+   document.getElementById("previousMeterReading").innerText=localStorage.getItem("meterReadingDate")
+   cancelMeterReadingDate.click();
+});
+cancelMeterReadingDate.addEventListener("click", () => {
+  meterReadingDateDiv.style.display = "none";
+  document.getElementsByClassName("absolute text-4xl cursor-pointer fa-solid top-2.5 right-4 z-[90] fa-close")[0].click()
+});
+meterReadingDate.addEventListener("click", () => {
+  meterReadingDateDiv.style.display = "flex";
+}); 
+if(localStorage.getItem("meterReadingDate")){
+  document.getElementById("previousMeterReading").innerText=localStorage.getItem("meterReadingDate")
+}
