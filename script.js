@@ -535,15 +535,36 @@ let arr=[]
   });
 
 
-let d = new Date();
-console.log(d.getDate()); 
-let nowDate=d.getDate()
-let totalDays=nowDate-Number(localStorage.getItem("meterReadingDate"))
 
-  const avg=arr[arr.length-1]/totalDays;
-  console.log(avg);
-  avgUnitsSpan.innerText=avg.toFixed(2).split(".00")[0];
-}}
+let d = new Date();
+let nowDate = d.getDate();
+let storedDate = Number(localStorage.getItem("meterReadingDate"));
+
+// ✅ Get last month total days
+let year = d.getFullYear();
+let month = d.getMonth(); // 0-based (Jan=0, Feb=1, ...)
+let lastMonthDays = new Date(year, month, 0).getDate();
+
+let totalDays;
+
+// if reading date is less than or equal to today → normal difference
+if (storedDate <= nowDate) {
+  totalDays = nowDate - storedDate;
+} else {
+  // if date crossed into new month → wrap around using lastMonthDays
+  totalDays = (lastMonthDays - storedDate) + nowDate;
+}
+
+console.log("Stored Date:", storedDate);
+console.log("Today Date:", nowDate);
+console.log("Last Month Days:", lastMonthDays);
+console.log("Total Days:", totalDays);
+
+// example average calculation
+const avg = arr[arr.length - 1] / totalDays;
+avgUnitsSpan.innerText = avg.toFixed(2).split(".00")[0];
+
+
 
 
 appendAvg.addEventListener("click", () => {
@@ -575,4 +596,4 @@ meterReadingDate.addEventListener("click", () => {
 }); 
 if(localStorage.getItem("meterReadingDate")){
   document.getElementById("previousMeterReading").innerText=localStorage.getItem("meterReadingDate")
-}
+}}}
