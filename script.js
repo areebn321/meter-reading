@@ -1,7 +1,7 @@
 console.log("Running...");
 
-// const serverForReq = "http://localhost:8000/";
-const serverForReq = `https://meter-reading-production.up.railway.app/`;
+const serverForReq = "http://localhost:8000/";
+// const serverForReq = `https://meter-reading-production.up.railway.app/`;
 let activeMeter = 0;
 let meterNames = [];
 let meterData = [];
@@ -555,10 +555,10 @@ if (storedDate <= nowDate) {
   totalDays = (lastMonthDays - storedDate) + nowDate;
 }
 
-console.log("Stored Date:", storedDate);
-console.log("Today Date:", nowDate);
-console.log("Last Month Days:", lastMonthDays);
-console.log("Total Days:", totalDays);
+// console.log("Stored Date:", storedDate);
+// console.log("Today Date:", nowDate);
+// console.log("Last Month Days:", lastMonthDays);
+// console.log("Total Days:", totalDays);
 
 // example average calculation
 const avg = arr[arr.length - 1] / totalDays;
@@ -596,4 +596,97 @@ meterReadingDate.addEventListener("click", () => {
 }); 
 if(localStorage.getItem("meterReadingDate")){
   document.getElementById("previousMeterReading").innerText=localStorage.getItem("meterReadingDate")
-}}}
+}}
+
+let isSelectionMode = false;
+
+selectMeterBtn.addEventListener("click", () => {
+  console.log("Selection mode toggled");
+  isSelectionMode = !isSelectionMode;
+  
+  const elements = document.getElementsByClassName(
+    "flex items-center justify-center rounded-sm w-[95%] md:w-[70%] mx-auto border"
+  );
+
+  if (elements.length === 0) {
+    alert("No meter readings to select from!");
+    return;
+  }
+
+  // Remove existing checkboxes first
+  document.querySelectorAll(".reading-checkbox").forEach(cb => cb.remove());
+  const existingDeleteBtn = document.getElementById("deleteSelectedBtn");
+  if (existingDeleteBtn) existingDeleteBtn.remove();
+
+  if (isSelectionMode) {
+    // Show checkboxes and delete button
+    Array.from(elements).forEach((element) => {
+      if (!element.querySelector('.reading-checkbox')) {  // Check if checkbox already exists
+        const selectBtn = document.createElement("input");
+        selectBtn.type = "checkbox";
+        selectBtn.className = "m-2 reading-checkbox";
+        element.insertBefore(selectBtn, element.firstChild);
+      }
+    });
+
+    // Create delete selected button if it doesn't exist
+    if (!document.getElementById("deleteSelectedBtn")) {
+      const deleteBtn = document.createElement("button");
+      deleteBtn.id = "deleteSelectedBtn";
+      deleteBtn.innerHTML = `
+        <span style="display:inline-flex;align-items:center;">
+          <i class="fa fa-trash mr-2"></i>
+          Delete Selected
+        </span>
+      `;
+      deleteBtn.className = `
+        px-5 py-2 ml-2 text-white bg-gradient-to-r from-red-500 via-pink-500 to-red-600
+        rounded-lg shadow hover:from-red-600 hover:to-pink-600 hover:scale-105 transition-all
+        border border-red-700 flex items-center gap-2
+      `;
+      deleteBtn.style.fontWeight = "bold";
+      deleteBtn.style.fontSize = "1rem";
+      deleteBtn.onclick = deleteSelectedReadings;
+      // Place the button next to the Select button
+      selectMeterBtn.parentElement.appendChild(deleteBtn);
+    }
+  }
+});
+
+async function deleteSelectedReadings() {
+  const checkboxes = document.querySelectorAll(".reading-checkbox:checked");
+  if (checkboxes.length === 0) {
+    alert("Please select readings to delete");
+    return;
+  }
+
+  if (!confirm(`Delete ${checkboxes.length} selected readings?`)) {
+    return;
+  }
+
+  await loader();
+  
+  // Collect indices to delete in reverse order
+  const indicesToDelete = Array.from(checkboxes)
+    .map(cb => Array.from(cb.parentElement.parentElement.children)
+      .indexOf(cb.parentElement))
+    .sort((a, b) => b - a); // Sort in descending order
+
+  // Delete each selected reading
+  for (const index of indicesToDelete) {
+    try {
+      await deleteMeterReading(activeMeter, index);
+      meterFullData[activeMeter].splice(index, 1);
+    } catch (error) {
+      console.error("Error deleting reading:", error);
+    }
+  }
+
+  // Update UI
+  addData(activeMeter);
+  isSelectionMode = false;
+  const deleteBtn = document.getElementById("deleteSelectedBtn");
+  if (deleteBtn) deleteBtn.remove();
+
+  await loader("none");
+}}
